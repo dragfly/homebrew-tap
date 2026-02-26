@@ -10,19 +10,16 @@ class Dictare < Formula
 
   def install
     dictare_tarball = "PLACEHOLDER_DICTARE"
-    openvip_tarball = "PLACEHOLDER_OPENVIP"
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
     ENV["UV_PYTHON_INSTALL_DIR"] = (libexec/"uv-python").to_s
 
-    # Install from local tarball — dictare is not yet on PyPI.
-    # --find-links provides openvip from local tarball until it's on PyPI.
+    # Install dictare from local tarball; openvip and all other deps from PyPI.
     system "uv", "tool", "install",
            "--python", "3.11",
            "--prerelease=allow",
-           "--find-links", File.dirname(openvip_tarball),
            "#{dictare_tarball}#{extras}"
 
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
