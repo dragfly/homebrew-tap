@@ -21,6 +21,7 @@ class Dictare < Formula
     # --find-links provides openvip from local tarball until it's on PyPI.
     system "uv", "tool", "install",
            "--python", "3.11",
+           "--prerelease=allow",
            "--find-links", File.dirname(openvip_tarball),
            "#{dictare_tarball}#{extras}"
 
