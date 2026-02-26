@@ -1,14 +1,16 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://github.com/dragfly/dictare/releases/download/v0.1.21/dictare-0.1.21.tar.gz"
-  sha256 "0000000000000000000000000000000000000000000000000000000000000000"
+  url "file://PLACEHOLDER"
+  sha256 "PLACEHOLDER"
   license "MIT"
 
   depends_on "portaudio"
   depends_on "uv"
 
   def install
+    openvip_tarball = "PLACEHOLDER"
+
     # Determine extras based on architecture
     pkg_spec = Hardware::CPU.arm? ? "dictare[mlx]" : "dictare"
 
@@ -16,8 +18,12 @@ class Dictare < Formula
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
     ENV["UV_PYTHON_INSTALL_DIR"] = (libexec/"uv-python").to_s
 
+    # --no-sources ignores [tool.uv.sources] dev overrides (local editable paths)
+    # --find-links provides openvip from local tarball until it's on PyPI
     system "uv", "tool", "install",
            "--python", "3.11",
+           "--no-sources",
+           "--find-links", File.dirname(openvip_tarball),
            pkg_spec
 
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
@@ -35,6 +41,6 @@ class Dictare < Formula
   end
 
   test do
-    assert_match "0.1.21", shell_output("#{bin}/dictare --version")
+    assert_match "PLACEHOLDER", shell_output("#{bin}/dictare --version")
   end
 end
