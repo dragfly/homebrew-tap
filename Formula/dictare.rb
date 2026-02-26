@@ -25,11 +25,9 @@ class Dictare < Formula
 
   def caveats
     <<~EOS
-      dictare requires Input Monitoring permission for hotkey support.
-
-        1. Open System Settings → Privacy & Security → Input Monitoring
-        2. Click '+' and add your terminal app
-        3. Enable the toggle
+      On first launch, macOS will ask for Input Monitoring permission.
+      A system dialog will appear — click "Open System Settings" and
+      enable the toggle for Dictare. That's it.
 
       If you installed on Apple Silicon, the MLX backend is included
       for hardware-accelerated on-device speech recognition.
