@@ -9,8 +9,8 @@ class Dictare < Formula
   depends_on "uv"
 
   def install
-    dictare_tarball = "dictare==0.1.140rc1"
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
+    dictare_pkg = "dictare#{extras}==0.1.140rc1"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -19,7 +19,7 @@ class Dictare < Formula
     system "uv", "tool", "install",
            "--python", "3.11",
            "--prerelease=allow",
-           "#{dictare_tarball}#{extras}"
+           dictare_pkg
 
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
   end
