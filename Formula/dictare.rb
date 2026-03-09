@@ -32,6 +32,10 @@ class Dictare < Formula
 
   def caveats
     <<~EOS
+      After install, start the service:
+
+        dictare service install
+
       On first launch, macOS will ask for Input Monitoring permission.
       A system dialog will appear — click "Open System Settings" and
       enable the toggle for Dictare. That's it.
