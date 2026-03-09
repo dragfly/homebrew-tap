@@ -24,12 +24,6 @@ class Dictare < Formula
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
   end
 
-  def post_install
-    # Update ~/.dictare/python_path and restart the launchd service.
-    # The signed .app bundle in ~/Applications stays untouched.
-    system bin/"dictare", "service", "install"
-  end
-
   def caveats
     <<~EOS
       After install, start the service:
