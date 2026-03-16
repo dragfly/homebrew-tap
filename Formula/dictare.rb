@@ -36,16 +36,22 @@ class Dictare < Formula
       system "cp", "-R", *Dir.glob("*"), target.to_s
     end
 
-    # Copy launcher to ~/Applications
-    app_dest = Pathname.new(Dir.home)/"Applications/Dictare.app"
-    system "rm", "-rf", app_dest.to_s if app_dest.exist?
-    system "cp", "-R", (libexec/"bundle/Dictare.app").to_s, app_dest.to_s
   end
 
   def post_install
+    # Copy launcher to ~/Applications (runs outside sandbox)
+    real_home = ENV["HOME"] || Pathname.new("~").expand_path.to_s
+    app_dest = Pathname.new(real_home)/"Applications/Dictare.app"
+    launcher_src = libexec/"bundle/Dictare.app"
+    if launcher_src.exist?
+      system "rm", "-rf", app_dest.to_s if app_dest.exist?
+      system "cp", "-R", launcher_src.to_s, app_dest.to_s
+    end
+
+    # Restart service if already installed
     dictare_bin = bin/"dictare"
     if File.exist?(dictare_bin)
-      plist = Pathname.new(Dir.home)/"Library/LaunchAgents/dev.dragfly.dictare.plist"
+      plist = Pathname.new(real_home)/"Library/LaunchAgents/dev.dragfly.dictare.plist"
       if plist.exist?
         system "launchctl", "unload", plist.to_s rescue nil
         system dictare_bin, "service", "install"
