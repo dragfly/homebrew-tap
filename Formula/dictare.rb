@@ -40,12 +40,12 @@ class Dictare < Formula
 
   def post_install
     # Copy launcher to ~/Applications (runs outside sandbox)
+    # Use ditto — handles signed/notarized .app bundles correctly
     real_home = ENV["HOME"] || Pathname.new("~").expand_path.to_s
     app_dest = Pathname.new(real_home)/"Applications/Dictare.app"
     launcher_src = libexec/"bundle/Dictare.app"
     if launcher_src.exist?
-      system "rm", "-rf", app_dest.to_s if app_dest.exist?
-      system "cp", "-R", launcher_src.to_s, app_dest.to_s
+      system "ditto", launcher_src.to_s, app_dest.to_s
     end
 
     # Restart service if already installed
