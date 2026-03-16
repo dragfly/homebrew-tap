@@ -16,7 +16,7 @@ class Dictare < Formula
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==0.2.1b2"
+    dictare_pkg = "dictare#{extras}==#{version}"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -31,17 +31,31 @@ class Dictare < Formula
 
     # Install signed launcher bundle
     resource("launcher").stage do
-      # Homebrew auto-strips the single top-level dir (Dictare.app),
-      # so pwd is inside the .app bundle. Reconstruct it.
       target = libexec/"bundle/Dictare.app"
       target.mkpath
       system "cp", "-R", *Dir.glob("*"), target.to_s
+    end
+
+    # Copy launcher to ~/Applications
+    app_dest = Pathname.new(Dir.home)/"Applications/Dictare.app"
+    system "rm", "-rf", app_dest.to_s if app_dest.exist?
+    system "cp", "-R", (libexec/"bundle/Dictare.app").to_s, app_dest.to_s
+  end
+
+  def post_install
+    dictare_bin = bin/"dictare"
+    if File.exist?(dictare_bin)
+      plist = Pathname.new(Dir.home)/"Library/LaunchAgents/dev.dragfly.dictare.plist"
+      if plist.exist?
+        system "launchctl", "unload", plist.to_s rescue nil
+        system dictare_bin, "service", "install"
+      end
     end
   end
 
   def caveats
     <<~EOS
-      After install, start the service:
+      After first install, start the service:
 
         dictare service install
 
@@ -51,10 +65,12 @@ class Dictare < Formula
 
       If you installed on Apple Silicon, the MLX backend is included
       for hardware-accelerated on-device speech recognition.
+
+      After upgrades, the service restarts automatically.
     EOS
   end
 
   test do
-    assert_match "0.2.1b2", shell_output("#{bin}/dictare --version")
+    assert_match version.to_s, shell_output("#{bin}/dictare --version")
   end
 end
