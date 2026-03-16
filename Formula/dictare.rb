@@ -1,8 +1,8 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/c0/62/1c4665e076124da1fad1f029f875d2ff6ba2230c8dab03ee5298740b1840/dictare-0.2.0.tar.gz"
-  sha256 "31687fbb1717b6a021b668ea3a90a48c09cbb063c53596c3a9e12d3ad6c20fa1"
+  url "https://files.pythonhosted.org/packages/e9/01/88d32141bb49a4b7918a49bcb61be9aaa9ace8835064c48399e74d7fc2e9/dictare-0.2.1b1.tar.gz"
+  sha256 "ab20df35067025ca0508c147347fc705be2aa91d1bfb81470c3475761fd547e1"
   license "MIT"
 
   depends_on "portaudio"
@@ -16,7 +16,7 @@ class Dictare < Formula
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==#{version}"
+    dictare_pkg = "dictare#{extras}==0.2.1b1"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -31,12 +31,7 @@ class Dictare < Formula
 
     # Install signed launcher bundle
     resource("launcher").stage do
-      # Homebrew auto-strips the single top-level dir (Dictare.app),
-      # so pwd is inside the .app bundle (Contents/, MacOS/, etc.).
-      # Reconstruct the .app by copying current dir contents.
-      target = libexec/"bundle/Dictare.app"
-      target.mkpath
-      system "cp", "-R", *Dir.glob("*"), target.to_s
+      (libexec/"bundle").install "Dictare.app"
     end
   end
 
@@ -56,6 +51,6 @@ class Dictare < Formula
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/dictare --version")
+    assert_match "0.2.1b1", shell_output("#{bin}/dictare --version")
   end
 end
