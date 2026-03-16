@@ -39,12 +39,14 @@ class Dictare < Formula
   end
 
   def post_install
-    # Copy launcher to ~/Applications (runs outside sandbox)
-    # Use ditto — handles signed/notarized .app bundles correctly
+    # Copy launcher to ~/Applications only if not already present.
+    # The signed/notarized .app can't be overwritten by Homebrew (SIP).
+    # The launcher binary doesn't change between versions — it just
+    # finds `dictare` in PATH and runs it.
     real_home = ENV["HOME"] || Pathname.new("~").expand_path.to_s
     app_dest = Pathname.new(real_home)/"Applications/Dictare.app"
     launcher_src = libexec/"bundle/Dictare.app"
-    if launcher_src.exist?
+    if launcher_src.exist? && !app_dest.exist?
       system "ditto", launcher_src.to_s, app_dest.to_s
     end
 
