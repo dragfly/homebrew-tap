@@ -1,8 +1,8 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/ae/4a/2ce33e1512b9874495b4b5ae7c5c04e25f61de0e3b6f61cbc66be23c1f6a/dictare-0.2.1b2.tar.gz"
-  sha256 "4e4146be3790169c27b73e922dda652dde465131d9e5d7bec1210196795cb8e6"
+  url "https://files.pythonhosted.org/packages/1b/11/98b76c66351d0d5b4a3086088c5aba490fa015ab4c08293192e054ca5ac5/dictare-0.2.1b4.tar.gz"
+  sha256 "de983085121eab5d661f26d50a3625533fc47647026761cf69c2473a5629a260"
   license "MIT"
 
   depends_on "portaudio"
@@ -16,7 +16,7 @@ class Dictare < Formula
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==#{version}"
+    dictare_pkg = "dictare#{extras}==0.2.1b4"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -40,8 +40,6 @@ class Dictare < Formula
   def post_install
     # Copy launcher to ~/Applications ONLY on first install.
     # Signed .app bundles can't be overwritten (macOS SIP).
-    # The launcher binary is stable — it reads ~/.dictare/python_path
-    # at runtime, so upgrades don't require a new launcher.
     real_home = ENV["HOME"] || Pathname.new("~").expand_path.to_s
     app_dest = Pathname.new(real_home)/"Applications/Dictare.app"
     launcher_src = libexec/"bundle/Dictare.app"
@@ -61,13 +59,13 @@ class Dictare < Formula
         dictare service restart
 
       On first launch, macOS will ask for Input Monitoring permission.
-      Grant it in System Settings → Privacy & Security → Input Monitoring.
+      Grant it in System Settings > Privacy & Security > Input Monitoring.
 
       Apple Silicon: MLX backend included for hardware-accelerated STT.
     EOS
   end
 
   test do
-    assert_match version.to_s, shell_output("#{bin}/dictare --version")
+    assert_match "0.2.1b4", shell_output("#{bin}/dictare --version")
   end
 end
