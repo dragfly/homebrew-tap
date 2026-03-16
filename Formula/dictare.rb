@@ -30,9 +30,18 @@ class Dictare < Formula
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
 
     # Install signed launcher bundle
-    resource("launcher").stage do
-      (libexec/"bundle").mkpath
-      system "cp", "-R", "Dictare.app", (libexec/"bundle/Dictare.app").to_s
+    resource("launcher").stage do |stage_dir|
+      # Homebrew auto-strips the single top-level dir, so we're inside Dictare.app.
+      # Use the stage_dir to find the .app and copy it whole.
+      app_dir = stage_dir/"Dictare.app"
+      if app_dir.exist?
+        (libexec/"bundle").mkpath
+        system "cp", "-R", app_dir.to_s, (libexec/"bundle/Dictare.app").to_s
+      else
+        # Fallback: we're already inside Dictare.app, copy parent
+        (libexec/"bundle/Dictare.app").mkpath
+        system "cp", "-R", ".", (libexec/"bundle/Dictare.app").to_s
+      end
     end
   end
 
