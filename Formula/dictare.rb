@@ -25,6 +25,7 @@ class Dictare < Formula
     system "uv", "tool", "install",
            "--python", "3.11",
            "--prerelease=allow",
+           "--reinstall",
            dictare_pkg
 
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
