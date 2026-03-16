@@ -32,7 +32,7 @@ class Dictare < Formula
     # Install signed launcher bundle
     resource("launcher").stage do
       (libexec/"bundle").mkpath
-      cp_r "Dictare.app", libexec/"bundle/Dictare.app"
+      system "cp", "-R", "Dictare.app", (libexec/"bundle/Dictare.app").to_s
     end
   end
 
