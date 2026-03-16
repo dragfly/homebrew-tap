@@ -50,31 +50,26 @@ class Dictare < Formula
       system "ditto", launcher_src.to_s, app_dest.to_s
     end
 
-    # Restart service if already installed
-    dictare_bin = bin/"dictare"
-    if File.exist?(dictare_bin)
-      plist = Pathname.new(real_home)/"Library/LaunchAgents/dev.dragfly.dictare.plist"
-      if plist.exist?
-        system "launchctl", "unload", plist.to_s rescue nil
-        system dictare_bin, "service", "install"
-      end
-    end
+    # Note: we don't restart the service here because Homebrew's
+    # post_install runs in a restricted context that can't write to
+    # ~/.dictare/ (macOS security policy). The user must run
+    # `dictare service restart` after upgrade.
   end
 
   def caveats
     <<~EOS
-      After first install, start the service:
+      First install:
 
         dictare service install
 
+      After upgrade:
+
+        dictare service restart
+
       On first launch, macOS will ask for Input Monitoring permission.
-      A system dialog will appear — click "Open System Settings" and
-      enable the toggle for Dictare. That's it.
+      Grant it in System Settings → Privacy & Security → Input Monitoring.
 
-      If you installed on Apple Silicon, the MLX backend is included
-      for hardware-accelerated on-device speech recognition.
-
-      After upgrades, the service restarts automatically.
+      Apple Silicon: MLX backend included for hardware-accelerated STT.
     EOS
   end
 
