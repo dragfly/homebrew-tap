@@ -16,7 +16,7 @@ class Dictare < Formula
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==0.2.0"
+    dictare_pkg = "dictare#{extras}==#{version}"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -31,7 +31,8 @@ class Dictare < Formula
 
     # Install signed launcher bundle
     resource("launcher").stage do
-      (libexec/"bundle").install "Dictare.app"
+      (libexec/"bundle").mkpath
+      cp_r "Dictare.app", libexec/"bundle/Dictare.app"
     end
   end
 
@@ -51,6 +52,6 @@ class Dictare < Formula
   end
 
   test do
-    assert_match "0.2.0", shell_output("#{bin}/dictare --version")
+    assert_match version.to_s, shell_output("#{bin}/dictare --version")
   end
 end
