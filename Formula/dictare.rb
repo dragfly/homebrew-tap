@@ -1,8 +1,8 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/e4/f4/d8c960d00338c30574eff5e2f3df5187f1db4acbc140b2e7d5089a37ce82/dictare-0.1.140rc14.tar.gz"
-  sha256 "5bd3be430a4b1e13af1f6f52db180361a62d680aae1f480f6f52902cbb297922"
+  url "https://files.pythonhosted.org/packages/c0/62/1c4665e076124da1fad1f029f875d2ff6ba2230c8dab03ee5298740b1840/dictare-0.2.0.tar.gz"
+  sha256 "31687fbb1717b6a021b668ea3a90a48c09cbb063c53596c3a9e12d3ad6c20fa1"
   license "MIT"
 
   depends_on "portaudio"
@@ -11,12 +11,12 @@ class Dictare < Formula
 
   resource "launcher" do
     url "https://github.com/dragfly/dictare/releases/download/launcher/Dictare-launcher-universal.zip"
-    sha256 "34e2b112014f47e2f633fa7ef7a30158a30b4daeb9a901aca9de9d9650133658"
+    sha256 "6b2873e70c73b81febbaf7b2efecab5ae1238a5bf70158bfdc7b23940bd9b3c0"
   end
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==0.1.140rc14"
+    dictare_pkg = "dictare#{extras}==0.2.0"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -51,6 +51,6 @@ class Dictare < Formula
   end
 
   test do
-    assert_match "0.1.140rc14", shell_output("#{bin}/dictare --version")
+    assert_match "0.2.0", shell_output("#{bin}/dictare --version")
   end
 end
