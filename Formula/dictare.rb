@@ -29,31 +29,25 @@ class Dictare < Formula
 
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
 
-    # Install signed launcher bundle
+    # Store signed launcher bundle in Cellar
     resource("launcher").stage do
       target = libexec/"bundle/Dictare.app"
       target.mkpath
       system "cp", "-R", *Dir.glob("*"), target.to_s
     end
-
   end
 
   def post_install
-    # Copy launcher to ~/Applications only if not already present.
-    # The signed/notarized .app can't be overwritten by Homebrew (SIP).
-    # The launcher binary doesn't change between versions — it just
-    # finds `dictare` in PATH and runs it.
+    # Copy launcher to ~/Applications ONLY on first install.
+    # Signed .app bundles can't be overwritten (macOS SIP).
+    # The launcher binary is stable — it reads ~/.dictare/python_path
+    # at runtime, so upgrades don't require a new launcher.
     real_home = ENV["HOME"] || Pathname.new("~").expand_path.to_s
     app_dest = Pathname.new(real_home)/"Applications/Dictare.app"
     launcher_src = libexec/"bundle/Dictare.app"
     if launcher_src.exist? && !app_dest.exist?
       system "ditto", launcher_src.to_s, app_dest.to_s
     end
-
-    # Note: we don't restart the service here because Homebrew's
-    # post_install runs in a restricted context that can't write to
-    # ~/.dictare/ (macOS security policy). The user must run
-    # `dictare service restart` after upgrade.
   end
 
   def caveats
