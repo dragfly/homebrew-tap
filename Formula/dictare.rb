@@ -1,8 +1,8 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/25/87/143034d5615eec1c5ac93e40a13808afa9d7ba3cbfd67b199f539924a2f0/dictare-0.2.7.tar.gz"
-  sha256 "5b32e1a109534e5b15fdcad490c31a352a339c3486638f174d0dd4ac89a0d27f"
+  url "https://files.pythonhosted.org/packages/55/92/c0a8487add77fc332a3da1f80daf5363746c9801f7e7c5951acd60a66ca6/dictare-0.2.8.tar.gz"
+  sha256 "a074b4b60a49b66ca6b297560b7e5eb6e65e1f32aa2946fc09dd49fac7f13fe8"
   license "MIT"
 
   depends_on "portaudio"
@@ -16,7 +16,7 @@ class Dictare < Formula
 
   def install
     extras = Hardware::CPU.arm? ? "[mlx]" : ""
-    dictare_pkg = "dictare#{extras}==0.2.7"
+    dictare_pkg = "dictare#{extras}==0.2.8"
 
     ENV["UV_TOOL_DIR"] = (libexec/"uv-tools").to_s
     ENV["UV_TOOL_BIN_DIR"] = (libexec/"bin").to_s
@@ -66,6 +66,6 @@ class Dictare < Formula
   end
 
   test do
-    assert_match "0.2.7", shell_output("#{bin}/dictare --version")
+    assert_match "0.2.8", shell_output("#{bin}/dictare --version")
   end
 end
