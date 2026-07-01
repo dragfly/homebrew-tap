@@ -172,7 +172,16 @@ class Dictare < Formula
     bin.install_symlink (libexec/"bin/dictare") => "dictare"
 
     resource("launcher").stage do
-      (libexec/"bundle").install "Dictare.app"
+      bundle_dir = libexec/"bundle"
+      if Pathname("Dictare.app").directory?
+        bundle_dir.install "Dictare.app"
+      elsif Pathname("Contents").directory?
+        app = bundle_dir/"Dictare.app"
+        app.mkpath
+        app.install "Contents"
+      else
+        odie "Launcher archive did not contain Dictare.app"
+      end
     end
   end
 
