@@ -202,8 +202,7 @@ class Dictare < Formula
 
       For a clean reinstall:
 
-        dictare uninstall
-        brew uninstall dictare
+        curl -fsSL https://raw.githubusercontent.com/dragfly/dictare/main/scripts/uninstall.sh | bash
         brew install dictare
         dictare setup
     EOS
