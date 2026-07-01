@@ -28,9 +28,11 @@ class Dictare < Formula
       DICTARE_BOOTSTRAP_URL="#{DICTARE_BOOTSTRAP_URL}"
       DICTARE_BOOTSTRAP_SHA256="#{DICTARE_BOOTSTRAP_SHA256}"
       DICTARE_HOMEBREW_BUNDLE="#{opt_libexec}/bundle/Dictare.app"
+      DICTARE_HOMEBREW_BIN="#{opt_bin}"
       DICTARE_UV="#{Formula["uv"].opt_bin}/uv"
       DICTARE_RUNTIME_ROOT="${DICTARE_RUNTIME_ROOT:-$HOME/.local/share/dictare}"
       export DICTARE_HOMEBREW_BUNDLE
+      export PATH="$DICTARE_HOMEBREW_BIN:$PATH"
 
       current_cli="$DICTARE_RUNTIME_ROOT/current/bin/dictare"
 
