@@ -1,13 +1,13 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/6a/30/48a59717126cd329bd5091052ddf7ee70090b896b286f38ca95561367ade/dictare-0.6.0.tar.gz"
-  sha256 "0d9595279815ac9c73575ac699f8d50751cff08a6e165bfa6a95329ad1df8cd9"
+  url "https://files.pythonhosted.org/packages/8b/f7/520f4d8b9600bfe4792144010be1598d7182b40869ca81da9112fbf44c29/dictare-0.6.1.tar.gz"
+  sha256 "83caed61e4b8baeb6dbf09f6084a3ca5e1e9a586498e383e43938c5947f8580e"
   license "MIT"
 
-  DICTARE_BOOTSTRAP_VERSION = "0.6.0"
-  DICTARE_BOOTSTRAP_URL = "https://files.pythonhosted.org/packages/6a/30/48a59717126cd329bd5091052ddf7ee70090b896b286f38ca95561367ade/dictare-0.6.0.tar.gz"
-  DICTARE_BOOTSTRAP_SHA256 = "0d9595279815ac9c73575ac699f8d50751cff08a6e165bfa6a95329ad1df8cd9"
+  DICTARE_BOOTSTRAP_VERSION = "0.6.1"
+  DICTARE_BOOTSTRAP_URL = "https://files.pythonhosted.org/packages/8b/f7/520f4d8b9600bfe4792144010be1598d7182b40869ca81da9112fbf44c29/dictare-0.6.1.tar.gz"
+  DICTARE_BOOTSTRAP_SHA256 = "83caed61e4b8baeb6dbf09f6084a3ca5e1e9a586498e383e43938c5947f8580e"
 
   depends_on "portaudio"
   depends_on "uv"
