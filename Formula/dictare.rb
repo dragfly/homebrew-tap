@@ -1,13 +1,13 @@
 class Dictare < Formula
   desc "Voice-first control for AI coding agents"
   homepage "https://github.com/dragfly/dictare"
-  url "https://files.pythonhosted.org/packages/4d/44/287cc33045fbf923cdff15472eb9ac821da65ce0e373a9e4452c132769fb/dictare-0.5.2.tar.gz"
-  sha256 "0fdba3eb6e466cb093e6fc48dec738112fe50e2eac861539a4d418f87c93234f"
+  url "https://files.pythonhosted.org/packages/6a/30/48a59717126cd329bd5091052ddf7ee70090b896b286f38ca95561367ade/dictare-0.6.0.tar.gz"
+  sha256 "0d9595279815ac9c73575ac699f8d50751cff08a6e165bfa6a95329ad1df8cd9"
   license "MIT"
 
-  DICTARE_BOOTSTRAP_VERSION = "0.5.2"
-  DICTARE_BOOTSTRAP_URL = "https://files.pythonhosted.org/packages/4d/44/287cc33045fbf923cdff15472eb9ac821da65ce0e373a9e4452c132769fb/dictare-0.5.2.tar.gz"
-  DICTARE_BOOTSTRAP_SHA256 = "0fdba3eb6e466cb093e6fc48dec738112fe50e2eac861539a4d418f87c93234f"
+  DICTARE_BOOTSTRAP_VERSION = "0.6.0"
+  DICTARE_BOOTSTRAP_URL = "https://files.pythonhosted.org/packages/6a/30/48a59717126cd329bd5091052ddf7ee70090b896b286f38ca95561367ade/dictare-0.6.0.tar.gz"
+  DICTARE_BOOTSTRAP_SHA256 = "0d9595279815ac9c73575ac699f8d50751cff08a6e165bfa6a95329ad1df8cd9"
 
   depends_on "portaudio"
   depends_on "uv"
@@ -202,7 +202,8 @@ class Dictare < Formula
 
       For a clean reinstall:
 
-        curl -fsSL https://raw.githubusercontent.com/dragfly/dictare/main/scripts/uninstall.sh | bash
+        dictare uninstall
+        brew uninstall dictare
         brew install dictare
         dictare setup
     EOS
